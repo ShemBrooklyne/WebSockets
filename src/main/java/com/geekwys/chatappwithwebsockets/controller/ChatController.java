@@ -11,9 +11,15 @@ import org.springframework.stereotype.Controller;
 public class ChatController {
 
     @MessageMapping("/chat.register")
-    @SendTo("/topic")
+    @SendTo("/topic/public")
     public ChatMessage registerUser(@Payload ChatMessage message, SimpMessageHeaderAccessor headerAccessor) throws NullPointerException {
         headerAccessor.getSessionAttributes().put("username", message.getSender());
+        return message;
+    }
+
+    @MessageMapping("/chat.send")
+    @SendTo("/topic/public")
+    public ChatMessage sendMessage(@Payload ChatMessage message) {
         return message;
     }
 
